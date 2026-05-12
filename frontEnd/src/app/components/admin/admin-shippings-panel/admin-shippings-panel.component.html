@@ -1,0 +1,47 @@
+<div class="admin-panel active d-block">
+    <div class="section-header mb-4">
+        <div class="dash-section-title">Shippings Tracker</div>
+        <div class="d-flex gap-2">
+            <div class="search-wrap"><i class="bi bi-search"></i><input class="search-input" type="text"
+                    placeholder="Tracking number..."></div>
+        </div>
+    </div>
+    <div class="data-card">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Tracking No.</th>
+                    <th>Order ID</th>
+                    <th>Carrier</th>
+                    <th>Customer</th>
+                    <th>Status</th>
+                    <th>Dispatched</th>
+                    <th>Est. Delivery</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (shp of shippings; track shp.id) {
+                <tr>
+                    <td><span style="font-weight:600;color:var(--brand-dark)"><i class="bi bi-box-seam me-2"
+                                style="color:var(--brand-gray)"></i>{{ shp.tracking }}</span></td>
+                    <td><a href="#" style="font-weight:600;color:var(--gold)">{{ shp.orderId }}</a></td>
+                    <td><span class="badge" style="background:var(--brand-warm);color:var(--brand-dark)">{{ shp.carrier
+                            }}</span></td>
+                    <td>{{ shp.customer }}</td>
+                    <td>
+                        <div class="d-flex align-items-center gap-2">
+                            <div class="track-dot" [ngClass]="shp.status === 'delivered' ? 'done' : 'current'"
+                                style="width:8px;height:8px;padding:0"></div>
+                            <span style="font-size:.83rem;font-weight:600">{{ shp.statusLabel }}</span>
+                        </div>
+                    </td>
+                    <td style="color:var(--brand-gray)">{{ shp.date }}</td>
+                    <td style="font-weight:600">{{ shp.eta }}</td>
+                    <td><button class="action-btn edit" title="Update Status"><i class="bi bi-pencil"></i></button></td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

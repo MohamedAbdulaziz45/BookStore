@@ -1,0 +1,48 @@
+<div class="admin-panel active d-block">
+    <div class="section-header mb-4">
+        <div class="dash-section-title">Orders Management</div>
+        <div class="d-flex gap-2">
+            <div class="search-wrap"><i class="bi bi-search"></i><input class="search-input" type="text"
+                    placeholder="Search orders..."></div>
+            <button class="btn-outline-gold"><i class="bi bi-download"></i> Export</button>
+        </div>
+    </div>
+    <div class="d-flex gap-2 mb-3">
+        <span class="status-badge status-pending" style="cursor:pointer;padding:6px 14px">Pending (12)</span>
+        <span class="status-badge status-processing" style="cursor:pointer;padding:6px 14px">Processing (8)</span>
+        <span class="status-badge status-shipped" style="cursor:pointer;padding:6px 14px">Shipped (45)</span>
+        <span class="status-badge status-delivered" style="cursor:pointer;padding:6px 14px">Delivered (278)</span>
+        <span class="status-badge status-cancelled" style="cursor:pointer;padding:6px 14px">Cancelled (5)</span>
+    </div>
+    <div class="data-card">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Customer</th>
+                    <th>Items</th>
+                    <th>Total</th>
+                    <th>Payment</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (order of ordersList; track order.id) {
+                <tr>
+                    <td><span style="font-weight:600;color:var(--gold)">{{ order.id }}</span></td>
+                    <td>{{ order.customer }}</td>
+                    <td>{{ order.items }}</td>
+                    <td>{{ order.total }}</td>
+                    <td>{{ order.payment }}</td>
+                    <td><span class="status-badge" [ngClass]="'status-' + order.status">{{ order.statusLabel }}</span>
+                    </td>
+                    <td style="color:var(--brand-gray)">{{ order.date }}</td>
+                    <td><button class="action-btn edit"><i class="bi bi-eye"></i></button></td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

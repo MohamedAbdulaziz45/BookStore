@@ -1,0 +1,40 @@
+<app-cart-sidebar></app-cart-sidebar>
+<app-header></app-header>
+<main>
+  <app-hero-section></app-hero-section>
+  <app-book-grid
+    [books]="featuredBooks"
+    title="Discover Your New Book"
+    description="Congue, gravida placeat nibh sunt semper elementum anim integer lectus debitis auctor."
+  >
+  </app-book-grid>
+  <app-categories-section [categories]="categories()"></app-categories-section>
+  <app-featured-book
+    [title]="featuredBook.title"
+    [subtitle]="featuredBook.subtitle"
+    [author]="featuredBook.author"
+    [description]="featuredBook.description"
+    [image]="featuredBook.image"
+    [price]="featuredBook.price"
+  >
+  </app-featured-book>
+  <app-author-section
+    [name]="author()?.name ?? null"
+    [bio]="author()?.bio ?? null"
+    [image]="author()?.image ?? null"
+    [id]="author()?.authorId ?? null"
+    books="authorBooks"
+  >
+  </app-author-section>
+  <app-book-grid
+    [books]="editorsPicks"
+    title="Picked By Editors"
+    description="Congue, gravida placeat nibh sunt semper elementum anim integer lectus debitis auctor."
+    [showViewMore]="false"
+  >
+  </app-book-grid>
+  <app-features></app-features>
+  <app-publisher-section></app-publisher-section>
+  <app-newsletter-section></app-newsletter-section>
+</main>
+<app-footer></app-footer>

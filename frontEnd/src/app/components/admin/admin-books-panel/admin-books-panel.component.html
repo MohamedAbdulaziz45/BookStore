@@ -1,0 +1,62 @@
+<div class="admin-panel active d-block">
+    <div class="section-header mb-4">
+        <div class="dash-section-title">Books Management</div>
+        <button class="btn-gold-dash"><i class="bi bi-plus-lg"></i> Add New Book</button>
+    </div>
+    <div class="data-card">
+        <div class="data-card-header">
+            <div class="search-wrap">
+                <i class="bi bi-search"></i>
+                <input class="search-input" type="text" placeholder="Search books...">
+            </div>
+            <div class="d-flex gap-2">
+                <select class="dash-select">
+                    <option>All Genres</option>
+                    <option>Fiction</option>
+                    <option>Non-Fiction</option>
+                    <option>Science</option>
+                </select>
+                <button class="btn-outline-gold"><i class="bi bi-funnel"></i> Filter</button>
+            </div>
+        </div>
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Book</th>
+                    <th>ISBN</th>
+                    <th>Genre</th>
+                    <th>Price</th>
+                    <th>Stock</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (book of booksList; track book.isbn) {
+                <tr>
+                    <td>
+                        <div class="d-flex align-items-center gap-2">
+                            <div class="book-thumb"><i class="bi bi-book" style="font-size:.8rem;color:var(--gold)"></i>
+                            </div>
+                            <div>
+                                <div style="font-weight:600;font-size:.87rem">{{ book.title }}</div>
+                                <div style="font-size:.75rem;color:var(--brand-gray)">{{ book.author }}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td style="color:var(--brand-gray)">{{ book.isbn }}</td>
+                    <td>{{ book.genre }}</td>
+                    <td style="font-weight:600">{{ book.price }}</td>
+                    <td><span [style.color]="book.stockColor" style="font-weight:600">{{ book.stock }}</span></td>
+                    <td><span class="status-badge" [ngClass]="'status-' + book.statusClass">{{ book.statusLabel
+                            }}</span></td>
+                    <td>
+                        <button class="action-btn edit"><i class="bi bi-pencil"></i></button>
+                        <button class="action-btn del"><i class="bi bi-trash"></i></button>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

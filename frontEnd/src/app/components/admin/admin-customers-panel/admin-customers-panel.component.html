@@ -1,0 +1,40 @@
+<div class="admin-panel active d-block">
+    <div class="section-header mb-4">
+        <div class="dash-section-title">Customers</div>
+        <div class="search-wrap"><i class="bi bi-search"></i><input class="search-input" type="text"
+                placeholder="Search customers..."></div>
+    </div>
+    <div class="data-card">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Customer</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Orders</th>
+                    <th>Total Spent</th>
+                    <th>Member Since</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (cust of customers; track cust.email) {
+                <tr>
+                    <td>
+                        <div class="d-flex align-items-center gap-2">
+                            <div class="avatar-sm" [style.background]="cust.color">{{ cust.initials }}</div>
+                            <span style="font-weight:600;font-size:.87rem">{{ cust.name }}</span>
+                        </div>
+                    </td>
+                    <td style="color:var(--brand-gray)">{{ cust.email }}</td>
+                    <td style="color:var(--brand-gray)">{{ cust.phone }}</td>
+                    <td><span style="font-weight:600">{{ cust.orders }}</span></td>
+                    <td style="font-weight:600;color:var(--gold)">{{ cust.spent }}</td>
+                    <td style="color:var(--brand-gray)">{{ cust.since }}</td>
+                    <td><button class="action-btn edit"><i class="bi bi-eye"></i></button></td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

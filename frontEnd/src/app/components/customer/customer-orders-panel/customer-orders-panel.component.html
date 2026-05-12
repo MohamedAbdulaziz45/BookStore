@@ -1,0 +1,52 @@
+<div class="section-heading">My Orders</div>
+
+@for (order of orders; track order.id) {
+<div class="order-card">
+    <div class="order-card-header">
+        <div>
+            <div class="order-id">{{ order.id }}</div>
+            <div class="order-date">{{ order.date }}</div>
+        </div>
+        <span class="status-badge" [ngClass]="'status-' + order.status">{{ order.statusLabel }}</span>
+    </div>
+    <div class="order-card-body">
+        <!-- Tracking (if available) -->
+        @if (order.tracking.length > 0) {
+        <div class="progress-track">
+            @for (step of order.tracking; track step.label; let last = $last) {
+            <div class="track-step">
+                <div class="track-dot" [ngClass]="step.state"><i class="bi" [ngClass]="step.icon"></i></div>
+                <div class="track-label">{{ step.label }}</div>
+            </div>
+            @if (!last) {
+            <div class="track-line" [ngClass]="step.state === 'future' ? 'future' : 'done'"></div>
+            }
+            }
+        </div>
+        }
+        @for (item of order.items; track item.title) {
+        <div class="order-item">
+            <div class="book-cover-sm"><i class="bi bi-book" style="color:var(--gold)"></i></div>
+            <div style="flex:1">
+                <div style="font-weight:600;font-size:.88rem">{{ item.title }}</div>
+                <div style="font-size:.78rem;color:var(--brand-gray)">{{ item.author }} · Qty: {{ item.qty
+                    }}</div>
+            </div>
+            <div style="font-weight:700;color:var(--gold)">{{ item.price }}</div>
+        </div>
+        }
+    </div>
+    <div class="order-card-footer">
+        <div style="font-size:.85rem;color:var(--brand-gray)">
+            {{ order.footer.text }} <strong style="color:var(--brand-dark)">{{ order.footer.date }}</strong>
+        </div>
+        <div class="d-flex gap-2">
+            @for (action of order.actions; track action.label) {
+            <button class="track-btn" [style]="action.style">
+                <i class="bi" [ngClass]="action.icon"></i> {{ action.label }}
+            </button>
+            }
+        </div>
+    </div>
+</div>
+}

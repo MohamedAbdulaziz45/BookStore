@@ -1,0 +1,64 @@
+<div class="admin-panel active d-block">
+    <div class="section-header mb-4">
+        <div class="dash-section-title">Payments</div>
+        <div class="d-flex gap-2">
+            <div class="search-wrap"><i class="bi bi-search"></i><input class="search-input" type="text"
+                    placeholder="Search payments..."></div>
+            <button class="btn-outline-gold"><i class="bi bi-download"></i> Export</button>
+        </div>
+    </div>
+    <div class="row g-3 mb-4">
+        <div class="col-md-4">
+            <div class="stat-card">
+                <div class="stat-value" style="color:var(--gold)">$203.53</div>
+                <div class="stat-label">Total Collected</div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="stat-card">
+                <div class="stat-value" style="color:#198754">$14.99</div>
+                <div class="stat-label">Pending Settlements</div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="stat-card">
+                <div class="stat-value" style="color:#dc3545">$0.00</div>
+                <div class="stat-label">Refunds (Last 30d)</div>
+            </div>
+        </div>
+    </div>
+    <div class="data-card">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Payment ID</th>
+                    <th>Order ID</th>
+                    <th>Customer</th>
+                    <th>Method</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (pay of payments; track pay.id) {
+                <tr>
+                    <td><span style="font-weight:600">{{ pay.id }}</span></td>
+                    <td><a href="#" style="font-weight:600;color:var(--gold)">{{ pay.orderId }}</a></td>
+                    <td>{{ pay.customer }}</td>
+                    <td>
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="bi" [ngClass]="pay.method === 'PayPal' ? 'bi-paypal' : 'bi-credit-card-2-front'"
+                                style="color:var(--brand-gray)"></i>
+                            {{ pay.method }}
+                        </div>
+                    </td>
+                    <td>{{ pay.amount }}</td>
+                    <td><span class="status-badge" [ngClass]="'status-' + pay.status">{{ pay.statusLabel }}</span></td>
+                    <td style="color:var(--brand-gray)">{{ pay.date }}</td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

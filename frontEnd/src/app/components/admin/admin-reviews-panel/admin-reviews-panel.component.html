@@ -1,0 +1,52 @@
+<div class="admin-panel active d-block">
+    <div class="section-header mb-4">
+        <div class="dash-section-title">Reviews Management</div>
+        <div class="d-flex gap-2">
+            <span class="status-badge status-pending" style="padding:6px 14px;cursor:pointer">Pending (5)</span>
+            <span class="status-badge status-shipped" style="padding:6px 14px;cursor:pointer">Approved (312)</span>
+        </div>
+    </div>
+    <div class="data-card">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Customer</th>
+                    <th>Book</th>
+                    <th>Rating</th>
+                    <th>Review</th>
+                    <th>Date</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (rev of reviews; track rev.book) {
+                <tr>
+                    <td>
+                        <div class="d-flex align-items-center gap-2">
+                            <div class="avatar-sm" [style.background]="rev.color" style="font-size:.7rem">{{
+                                rev.initials }}</div>
+                            {{ rev.name }}
+                        </div>
+                    </td>
+                    <td style="font-weight:600;font-size:.87rem">{{ rev.book }}</td>
+                    <td>
+                        <div class="stars">
+                            @for (filled of getStarsArray(rev.stars); track $index) {
+                            <i class="bi" [ngClass]="filled ? 'bi-star-fill' : 'bi-star'"></i>
+                            }
+                        </div>
+                    </td>
+                    <td
+                        style="color:var(--brand-gray);font-size:.83rem;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">
+                        {{ rev.review }}</td>
+                    <td style="color:var(--brand-gray)">{{ rev.date }}</td>
+                    <td>
+                        <button class="action-btn edit" title="Approve"><i class="bi bi-check-lg"></i></button>
+                        <button class="action-btn del" title="Reject"><i class="bi bi-x-lg"></i></button>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

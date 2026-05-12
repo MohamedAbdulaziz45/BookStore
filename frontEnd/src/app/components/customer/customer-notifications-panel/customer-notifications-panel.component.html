@@ -1,0 +1,30 @@
+<div class="d-flex align-items-center justify-content-between mb-4">
+    <div class="section-heading mb-0">Notifications</div>
+    <a href="#" style="font-size:.8rem;color:var(--gold);text-decoration:none">Mark all as read</a>
+</div>
+
+<div class="card-box" style="padding:0">
+    @for (notif of notifications; track notif.id; let last = $last) {
+    <div class="d-flex gap-3" style="padding:16px 20px"
+        [style.border-bottom]="!last ? '1px solid var(--brand-border)' : 'none'"
+        [style.background]="notif.unread ? 'rgba(225,169,43,.03)' : 'transparent'">
+        <div style="width:40px;height:40px;border-radius:50%;background:rgba(0,0,0,.04);display:flex;align-items:center;justify-content:center;flex-shrink:0"
+            [style.color]="notif.color">
+            <i class="bi" [ngClass]="notif.icon"></i>
+        </div>
+        <div style="flex:1">
+            <div class="d-flex justify-content-between align-items-start mb-1">
+                <div style="font-weight:600;font-size:.9rem"
+                    [style.color]="notif.unread ? 'var(--brand-dark)' : 'var(--brand-gray)'">{{ notif.title
+                    }}</div>
+                <div style="font-size:.75rem;color:var(--brand-gray)">{{ notif.time }}</div>
+            </div>
+            <p style="font-size:.85rem;color:var(--brand-gray);margin:0;line-height:1.5">{{ notif.text }}
+            </p>
+        </div>
+        @if (notif.unread) {
+        <div style="width:8px;height:8px;border-radius:50%;background:var(--gold);margin-top:6px"></div>
+        }
+    </div>
+    }
+</div>
