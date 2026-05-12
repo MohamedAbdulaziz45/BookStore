@@ -1,0 +1,23 @@
+# Angular
+frontEnd/dist/
+frontEnd/node_modules/
+frontEnd/.angular/
+frontEnd/src/environments/environment.ts
+frontEnd/src/environments/environment.development.ts
+
+# ASP.NET Core - All projects (bin & obj)
+backEnd/**/bin/
+backEnd/**/obj/
+
+# Logs
+backEnd/BookStoreApi/BookStoreApi/Logs/
+backEnd/BookStoreApi/BookStoreApi/api-build.log
+backEnd/BookStoreApi/msbuild.log
+
+# Secrets
+backEnd/BookStoreApi/BookStoreApi/appsettings.Development.json
+
+# User & IDE specific
+backEnd/**/*.user
+backEnd/BookStoreApi/BookStoreApi/BookStoreApi.http
+.vs/
