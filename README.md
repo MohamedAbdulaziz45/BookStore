@@ -44,11 +44,8 @@ BookStore is a full-stack online bookstore application with an ASP.NET Core Web 
 - Angular 18
 - Standalone components
 - Angular Router lazy-loaded routes
-- Angular Signals
-- RxJS
 - Bootstrap 5
 - Bootstrap Icons
-- SCSS
 
 ## Project structure
 
