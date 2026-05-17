@@ -5,6 +5,8 @@ using BookStore.Application.Books.Dtos;
 using BookStore.Application.Books.Queries.GetAllBooks;
 using BookStore.Application.Books.Queries.GetAllByGenre;
 using BookStore.Application.Books.Queries.GetBookById;
+using BookStore.Application.Books.Queries.GetEditorsPicks;
+using BookStore.Application.Books.Queries.GetFeaturBooks;
 using BookStore.Application.Common;
 using BookStore.Domain.Views;
 using MediatR;
@@ -19,6 +21,19 @@ public class BooksController(IMediator mediator) : ControllerBase
 {
     [HttpGet]
     public async Task<ActionResult<PagedResult<MiniBookDto>>> GetAll([FromQuery] GetAllBooksQuery query)
+    {
+        var books = await mediator.Send(query);
+        return Ok(books);
+    }
+    [HttpGet("featured")]
+    public async Task<ActionResult<PagedResult<MiniBookDto>>> GetFeatured([FromQuery] GetFeaturedBooksQuery query)
+    {
+        var books = await mediator.Send(query);
+        return Ok(books);
+    }
+
+    [HttpGet("editors-picks")]
+    public async Task<ActionResult<PagedResult<MiniBookDto>>> GetEditorsPicks([FromQuery] GetEditorsPicksQuery query)
     {
         var books = await mediator.Send(query);
         return Ok(books);

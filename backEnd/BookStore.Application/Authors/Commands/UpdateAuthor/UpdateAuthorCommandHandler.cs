@@ -7,7 +7,11 @@ using Microsoft.Extensions.Logging;
 
 namespace BookStore.Application.Authors.Commands.UpdateAuthor;
 
-internal class UpdateAuthorCommandHandler(ILogger<UpdateAuthorCommandHandler> logger, IMapper mapper, IAuthorsRepository repository) : IRequestHandler<UpdateAuthorCommand, bool>
+internal class UpdateAuthorCommandHandler(
+ILogger<UpdateAuthorCommandHandler> logger,
+IMapper mapper,
+IAuthorsRepository repository) 
+: IRequestHandler<UpdateAuthorCommand, bool>
 {
     public async Task<bool> Handle(UpdateAuthorCommand request, CancellationToken cancellationToken)
     {

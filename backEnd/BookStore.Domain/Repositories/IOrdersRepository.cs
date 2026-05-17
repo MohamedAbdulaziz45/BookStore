@@ -13,4 +13,5 @@ public interface IOrdersRepository
     Task<Order?> GetByStripeSessionIdAsync(string sessionId);
     Task<IEnumerable<Order>> GetByCustomerIdAsync(int customerId);
     Task<bool> UpdateStatusAsync(int orderId, OrderStatus status);
+    Task<bool> HasCustomerPurchasedBookAsync(int customerId, int bookId);
 }

@@ -20,7 +20,14 @@ public class BookConfig : IEntityTypeConfiguration<Book>
 
         builder.Property(b => b.Price)
             .HasColumnType("decimal(18,2)");
-
+   
+      
+        builder.Property(b => b.IsFeatured).IsRequired().HasDefaultValue(false);
+        builder.Property(b => b.FeaturedAt).IsRequired(false);
+        builder.Property(b => b.IsEditorsPick).IsRequired().HasDefaultValue(false);
+        builder.Property(b => b.EditorsPickAt).IsRequired(false);
+     
+        
         builder.HasOne(b => b.BookImage)
             .WithOne(bi => bi.Book)
             .HasForeignKey<Book>(bi => bi.ImageId)

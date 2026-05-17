@@ -58,4 +58,23 @@ internal class ReviewsRepository(BookStoreDBContext dbContext) : IReviewsReposit
         return await dbContext.Reviews
             .AnyAsync(r => r.CustomerId == customerId && r.BookId == bookId);
     }
+    public async Task<IEnumerable<Review>> GetAllByCustomerIdAsync(int customerId)
+    {
+        return await dbContext.Reviews
+            .Where(r => r.CustomerId == customerId)
+            .OrderByDescending(r =>r.ReviewDate)
+            .ToListAsync();
+    }
+    public async Task<Review?> GetByCustomerIdAndBookIdAsync(int customerId, int bookId)
+    {
+        return await dbContext.Reviews
+            .FirstOrDefaultAsync(r => r.CustomerId == customerId && r.BookId == bookId);
+    }
+
+    public async Task<IEnumerable<ReviewView>> GetAllViewByUserIdAsync(string userId)
+    {
+        return await dbContext.ReviewsViews
+            .Where(r => r.UserId == userId)
+            .ToListAsync();
+    }
 }

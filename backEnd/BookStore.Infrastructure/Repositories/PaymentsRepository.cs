@@ -16,6 +16,11 @@ internal class PaymentsRepository(BookStoreDBContext dbContext) : IPaymentsRepos
     {
         return await dbContext.Payments.FindAsync(id);
     }
+    public async Task<Payment?> GetByOrderIdAsync(int orderId)
+    {
+        return await dbContext.Payments
+            .SingleOrDefaultAsync(p => p.OrderId == orderId);
+    }
 
     public async Task<int> CreateAsync(Payment entity)
     {

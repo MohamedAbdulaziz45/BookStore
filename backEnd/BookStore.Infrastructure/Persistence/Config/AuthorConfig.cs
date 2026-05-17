@@ -21,6 +21,10 @@ public class AuthorConfig : IEntityTypeConfiguration<Author>
         builder.Property(a => a.Image)
             .HasMaxLength(500);
 
+
+        builder.Property(a => a.IsFeatured).IsRequired().HasDefaultValue(false);
+        builder.Property(a => a.FeaturedAt).IsRequired(false);
+
         builder.HasMany(a => a.Books)
             .WithOne(b => b.Author)
             .HasForeignKey(b => b.AuthorId)

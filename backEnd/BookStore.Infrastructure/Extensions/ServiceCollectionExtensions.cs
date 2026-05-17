@@ -53,5 +53,7 @@ public static class ServiceCollectionExtensions
         services.Configure<StripeSettings>(configuration.GetSection("Stripe"));
         services.AddScoped<IStripeService, StripeService>();
         services.AddScoped<ICheckoutFulfillmentService, CheckoutFulfillmentService>();
+        services.AddScoped<INotificationsRepository, NotificationsRepository>();
+        services.AddScoped<INewsletterSubscriptionsRepository, NewsletterSubscriptionsRepository>();
     }
 }

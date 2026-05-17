@@ -12,4 +12,7 @@ public interface IAuthorsRepository
     Task<bool> UpdateAsync(Author entity);
     Task SaveChanges();
     Task<bool> IsAuthorExist(int authorId);
+    //Task<(Author? Author, bool IsFallBack)> GetFeaturedOrFallbackAsync(int? fallbackAuthorId = null);
+    Task<Author?> GetFeaturedAuthorAsync();
+    Task<Author?> GetLastResortAuthorWithBooksAsync();
 }

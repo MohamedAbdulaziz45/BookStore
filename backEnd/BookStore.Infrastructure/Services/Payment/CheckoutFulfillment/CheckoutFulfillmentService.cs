@@ -38,7 +38,7 @@ internal class CheckoutFulfillmentService(BookStoreDBContext dbContext, IStripeS
 
                 if (orderExists)
                 {
-                    dbContext.ProcessedWebhookEvents.Add(BuildWebhookEvent(data.EventId, data.EventType),can);
+                    dbContext.ProcessedWebhookEvents.Add(BuildWebhookEvent(data.EventId, data.EventType));
                     await dbContext.SaveChangesAsync(cancellationToken);
                     await transaction.CommitAsync(cancellationToken);
                     return;

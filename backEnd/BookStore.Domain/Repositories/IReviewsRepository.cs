@@ -10,8 +10,11 @@ public interface IReviewsRepository
     Task<int> CreateAsync(Review entity);
     Task<bool> UpdateAsync(Review entity);
     Task<bool> DeleteAsync(int id);
+    Task<IEnumerable<Review>> GetAllByCustomerIdAsync(int customerId);
+    Task<Review?> GetByCustomerIdAndBookIdAsync(int customerId, int bookId);
     Task<IEnumerable<ReviewView>> GetAllViewAsync();
     Task<IEnumerable<ReviewView>> GetAllViewByBookIdAsync(int bookId);
     Task<ReviewView?> GetViewByIdAsync(int id);
+    Task<IEnumerable<ReviewView>> GetAllViewByUserIdAsync(string userId);
     Task<bool> HasReviewForBookAsync(int customerId, int bookId);
 }

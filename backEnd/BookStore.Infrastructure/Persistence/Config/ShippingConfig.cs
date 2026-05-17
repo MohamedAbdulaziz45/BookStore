@@ -17,10 +17,8 @@ public class ShippingConfig : IEntityTypeConfiguration<Shipping>
         builder.Property(s => s.TrackingNumber)
             .IsRequired()
             .HasMaxLength(100);
-
-        builder.Property(s => s.ShippingStatus)
-            .IsRequired()
-            .HasMaxLength(50);
+        
+        builder.Property(s => s.ShippingStatus).HasConversion<int>();
 
         builder.HasOne(s => s.Order)
             .WithOne(o => o.Shipping)

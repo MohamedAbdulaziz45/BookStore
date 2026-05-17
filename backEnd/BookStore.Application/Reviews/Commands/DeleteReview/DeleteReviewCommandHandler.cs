@@ -11,6 +11,7 @@ namespace BookStore.Application.Reviews.Commands.DeleteReview;
 internal class DeleteReviewCommandHandler(
 ILogger<DeleteReviewCommandHandler> logger,
 IReviewsRepository repository,
+ICustomersRepository customersRepository,
 IUserContext userContext) 
 : IRequestHandler<DeleteReviewCommand, bool>
 {
@@ -19,14 +20,18 @@ IUserContext userContext)
         var user = userContext.GetCurrentUser();
         logger.LogInformation("Deleting Review {ReviewId}", request.ReviewId);
 
-        var existingEntity = await repository.GetViewByIdAsync(request.ReviewId);
+        var existingEntity = await repository.GetByIdAsync(request.ReviewId);
         if (existingEntity == null)
             throw new NotFoundException(nameof(Review), request.ReviewId.ToString());
 
-        if (!user!.Roles.Contains(UserRoles.Admin) && existingEntity.UserId != user.Id)
+        if (!user!.Roles.Contains(UserRoles.Admin))
         {
-            throw new ForbidException();
+            var customer = await customersRepository.GetByUserIdAsync(user.Id)
+            ?? throw new ForbidException();
+            if (existingEntity.CustomerId != customer.CustomerId)
+                throw new ForbidException();
         }
+
 
         return await repository.DeleteAsync(request.ReviewId);
     }

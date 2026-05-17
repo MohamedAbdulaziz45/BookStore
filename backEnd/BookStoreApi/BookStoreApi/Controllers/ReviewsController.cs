@@ -3,6 +3,8 @@ using BookStore.Application.Reviews.Commands.DeleteReview;
 using BookStore.Application.Reviews.Commands.UpdateReview;
 using BookStore.Application.Reviews.Queries.GetAllReviews;
 using BookStore.Application.Reviews.Queries.GetAllReviewsByBookId;
+using BookStore.Application.Reviews.Queries.GetMyReviewByBookId;
+using BookStore.Application.Reviews.Queries.GetMyReviews;
 using BookStore.Application.Reviews.Queries.GetReviewById;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -24,6 +26,13 @@ public class ReviewsController(IMediator mediator) : ControllerBase
         return Ok(result);
     }
 
+    [HttpGet("me")]
+    public async Task<IActionResult> GetMine()
+    {
+        var result = await mediator.Send(new GetMyReviewsQuery());
+        return Ok(result);
+    }
+
     [HttpGet("{id:int}", Name = "GetReviewById")]
     [AllowAnonymous]
     public async Task<IActionResult> GetById([FromRoute] int id)
@@ -38,6 +47,12 @@ public class ReviewsController(IMediator mediator) : ControllerBase
         var result = await mediator.Send(new GetAllReviewsByBookIdQuery(bookId));
         return Ok(result);
     }
+    [HttpGet("/api/books/{bookId}/reviews/me")]
+    public async Task<IActionResult> GetMyReviewByBookId([FromRoute] int bookId)
+    {
+        var result = await mediator.Send(new GetMyReviewByBookIdQuery(bookId));
+        return Ok(result);
+    }
     [HttpPost("/api/books/{bookId}/reviews")]
     public async Task<IActionResult> Create([FromRoute] int bookId, [FromBody] CreateReviewCommand command)
     {
@@ -49,8 +64,7 @@ public class ReviewsController(IMediator mediator) : ControllerBase
     [HttpPut("{id:int}")]
     public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateReviewCommand command)
     {
-        // Ensuring ID in route matches command is handled manually or skipped for brevity
-        // Typically: if (id != command.ReviewId) return BadRequest();
+
         command.ReviewId = id;
         await mediator.Send(command);
         return NoContent();

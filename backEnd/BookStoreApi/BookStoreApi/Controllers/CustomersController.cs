@@ -3,13 +3,16 @@ using BookStore.Application.Customers.Commands.DeleteCustomer;
 using BookStore.Application.Customers.Commands.UpdateCustomer;
 using BookStore.Application.Customers.Queries.GetAllCustomers;
 using BookStore.Application.Customers.Queries.GetCustomerById;
+using BookStore.Domain.Constants;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookStoreApi.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/customers")]
+[Authorize(Roles = UserRoles.Admin)]
 public class CustomersController(IMediator mediator) : ControllerBase
 {
     [HttpGet]

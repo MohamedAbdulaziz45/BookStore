@@ -1,23 +1,62 @@
-# Angular
-frontEnd/dist/
+# ============================================================================
+# Frontend / Angular
+# ============================================================================
 frontEnd/node_modules/
+frontEnd/dist/
 frontEnd/.angular/
-frontEnd/src/environments/environment.ts
-frontEnd/src/environments/environment.development.ts
+frontEnd/tmp/
+frontEnd/out-tsc/
+frontEnd/coverage/
 
-# ASP.NET Core - All projects (bin & obj)
+# Keep Angular environment files tracked unless they contain no secrets.
+# Anything shipped to the frontend is public, so do not put API keys or secrets there.
+
+# ============================================================================
+# Backend / .NET
+# ============================================================================
 backEnd/**/bin/
 backEnd/**/obj/
+backEnd/**/TestResults/
+backEnd/**/coverage/
 
-# Logs
-backEnd/BookStoreApi/BookStoreApi/Logs/
-backEnd/BookStoreApi/BookStoreApi/api-build.log
-backEnd/BookStoreApi/msbuild.log
-
-# Secrets
-backEnd/BookStoreApi/BookStoreApi/appsettings.Development.json
-
-# User & IDE specific
-backEnd/**/*.user
+# User-specific Visual Studio / .NET files
+*.user
+*.rsuser
+*.suo
+*.userosscache
+*.sln.docstates
 backEnd/BookStoreApi/BookStoreApi/BookStoreApi.http
+
+# ============================================================================
+# Secrets and local-only configuration
+# ============================================================================
+backEnd/**/appsettings.Development.json
+backEnd/**/appsettings.Local.json
+backEnd/**/appsettings.*.local.json
+.env
+.env.*
+!.env.example
+
+# ============================================================================
+# Logs
+# ============================================================================
+*.log
+backEnd/BookStoreApi/BookStoreApi/Logs/
+
+# ============================================================================
+# IDEs / editors
+# ============================================================================
 .vs/
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.idea/
+.zed/
+
+# ============================================================================
+# OS files
+# ============================================================================
+.DS_Store
+Thumbs.db

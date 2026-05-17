@@ -1,8 +1,9 @@
-using BookStore.Application.Common.Interface;
+using BookStore.Application.Common.Behaviors;
 using BookStore.Application.Services.CartService;
 using BookStore.Application.Users;
 using FluentValidation;
-using FluentValidation.AspNetCore;
+
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace BookStore.Application.Extensions;
@@ -17,8 +18,8 @@ public static class ServiceCollectionExtension
 
         services.AddAutoMapper(cfg => { }, applicationAssembly);
 
-        services.AddValidatorsFromAssembly(applicationAssembly)
-                .AddFluentValidationAutoValidation();
+        services.AddValidatorsFromAssembly(applicationAssembly);
+        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
         services.AddScoped<IUserContext, UserContext>();
         services.AddScoped<ICartService, CartService>();
         services.AddHttpContextAccessor();

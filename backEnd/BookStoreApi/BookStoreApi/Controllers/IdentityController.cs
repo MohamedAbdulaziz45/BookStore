@@ -1,4 +1,5 @@
 using BookStore.Application.Users.Commands.AssignUserRole;
+using BookStore.Application.Users.Commands.ChangePassword;
 using BookStore.Application.Users.Commands.LoginUser;
 using BookStore.Application.Users.Commands.RegisterUser;
 using BookStore.Application.Users.Commands.UnassignUserRole;
@@ -65,5 +66,14 @@ public class IdentityController(IMediator mediator) : ControllerBase
 
         return NoContent();
     }
+
+    [HttpPatch("password")]
+    [Authorize]
+    public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordCommand command)
+    {
+        await mediator.Send(command);
+        return NoContent();
+    }
+
 }
 

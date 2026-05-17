@@ -5,11 +5,8 @@ using BookStore.Application.Carts.Commands.SyncCartItem;
 using BookStore.Application.Carts.Dtos;
 using BookStore.Application.Carts.Queries.GetCart;
 using BookStore.Application.Carts.Queries.PreviewCart;
-using BookStore.Application.Reviews.Commands.DeleteReview;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookStoreApi.Controllers

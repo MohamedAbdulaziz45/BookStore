@@ -12,7 +12,8 @@ public class Author
     public string Name { get; set; } = default!;
     public string Bio { get; set; } = default!;
     public string? Image { get; set; }
-
+    public bool IsFeatured { get; set; }
+    public DateTime? FeaturedAt { get; set; }
     public ICollection< Book> Books { get; set; }= new List<Book>();
 
 }

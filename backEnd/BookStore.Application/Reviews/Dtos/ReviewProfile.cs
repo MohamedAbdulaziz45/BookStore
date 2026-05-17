@@ -13,6 +13,10 @@ public class ReviewProfile : Profile
         CreateMap<Review, ReviewDto>();
         CreateMap<ReviewView, ReviewViewDto>();
         CreateMap<CreateReviewCommand, Review>();
-        CreateMap<UpdateReviewCommand, Review>();
+        CreateMap<UpdateReviewCommand, Review>()
+      .ForMember(d => d.ReviewId, o => o.Ignore())
+      .ForMember(d => d.CustomerId, o => o.Ignore())
+      .ForMember(d => d.BookId, o => o.Ignore())
+      .ForMember(d => d.ReviewDate, o => o.Ignore());
     }
 }

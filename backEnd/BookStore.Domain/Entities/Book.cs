@@ -12,6 +12,10 @@ public class Book
     public string? AdditionalDetails { get; set; }
     public decimal Price { get; set; }
     public int QuantityInStock { get; set; }
+    public bool IsFeatured { get; set; }
+    public DateTime? FeaturedAt { get; set; }
+    public bool IsEditorsPick { get; set; }
+    public DateTime? EditorsPickAt { get; set; }
     public int AuthorId{  get; set; }
 
 

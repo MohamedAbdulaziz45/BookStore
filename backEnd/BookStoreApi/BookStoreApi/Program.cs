@@ -1,4 +1,5 @@
 using BookStore.Application.Extensions;
+using BookStore.Domain.Constants;
 using BookStore.Domain.Entities;
 using BookStore.Infrastructure.Extensions;
 using BookStore.Infrastructure.Seeders;
@@ -51,8 +52,9 @@ public class Program
         app.UseAuthorization();
         app.UseMiddleware<RateLimitingMiddleware>();
         app.MapGroup("api/identity")
-        .WithTags("Identity")
-        .MapIdentityApi<User>();
+            .WithTags("Identity")
+            .MapIdentityApi<User>()
+            .RequireAuthorization(policy => policy.RequireRole(UserRoles.Admin));
 
         app.MapControllers();
 

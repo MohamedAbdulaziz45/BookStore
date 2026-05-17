@@ -3,16 +3,20 @@ using BookStore.Application.Shippings.Commands.CreateShipping;
 using BookStore.Application.Shippings.Commands.UpdateShipping;
 using BookStore.Application.Shippings.Queries.GetAllShippings;
 using BookStore.Application.Shippings.Queries.GetShippingById;
+using BookStore.Domain.Constants;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookStoreApi.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/shippings")]
+[Authorize]
 public class ShippingsController(IMediator mediator) : ControllerBase
 {
     [HttpGet]
+    [Authorize(Roles = UserRoles.Admin)]
     public async Task<IActionResult> GetAll()
     {
         var result = await mediator.Send(new GetAllShippingsQuery());
@@ -27,6 +31,7 @@ public class ShippingsController(IMediator mediator) : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles = UserRoles.Admin)]
     public async Task<IActionResult> Create([FromBody] CreateShippingCommand command)
     {
         var id = await mediator.Send(command);
@@ -34,10 +39,10 @@ public class ShippingsController(IMediator mediator) : ControllerBase
     }
 
     [HttpPut("{id}")]
+    [Authorize(Roles = UserRoles.Admin)]
     public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateShippingCommand command)
     {
-        // Ensuring ID in route matches command is handled manually or skipped for brevity
-        // Typically: if (id != command.ShippingId) return BadRequest();
+
         command.ShippingId = id;
         await mediator.Send(command);
         return NoContent();

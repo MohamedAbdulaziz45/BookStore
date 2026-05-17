@@ -24,6 +24,69 @@ internal class AuthorsRepository(BookStoreDBContext dbContext) : IAuthorsReposit
         return await dbContext.Authors.FirstOrDefaultAsync(a => a.AuthorId == id);
     }
 
+    public async Task<Author?> GetFeaturedAuthorAsync()
+    {
+      return await dbContext.Authors
+       .Where(a => a.IsFeatured == true)
+       .OrderByDescending(a => a.FeaturedAt)
+       .FirstOrDefaultAsync();
+    }
+
+    public async Task<Author?> GetLastResortAuthorWithBooksAsync()
+    {
+        return await dbContext.Authors
+          .Where(a => a.Books.Any())
+          .OrderBy(a => a.AuthorId)
+          .FirstOrDefaultAsync();
+    }
+    //public async Task<(Author? Author,bool IsFallBack)> GetFeaturedOrFallbackAsync(int? fallbackAuthorId = null)
+    //{
+
+    //    /*
+    //        var candidates = await dbContext.Authors
+    //     .Where(a => a.IsFeatured || a.AuthorId == fallbackAuthorId || a.Books.Any())
+    //     .Select(a => new
+    //     {
+    //         Author = a,
+    //         Priority = a.IsFeatured ? 0 : (a.AuthorId == fallbackAuthorId ? 1 : 2),
+    //         SortOrder = a.FeaturedAt ?? int.MaxValue
+    //     })
+    //     .OrderBy(a => a.Priority)
+    //     .ThenByDescending(a => a.SortOrder)
+    //     .ThenByDescending(a => a.Author.AuthorId)
+    //     .FirstOrDefaultAsync();
+
+    //     if (candidates == null)
+    //     return (null, true);
+         
+    //     return (candidates.Author, candidates.Priority > 0);
+    //     */
+    //    var featuredAuthor = await dbContext.Authors
+    //   .Where(a=>a.IsFeatured==true)
+    //   .OrderByDescending(a=>a.FeaturedAt)
+    //   .FirstOrDefaultAsync();
+
+    //    if (featuredAuthor != null)
+    //    {
+    //        return (featuredAuthor, false);
+    //    }
+
+    //    if(fallbackAuthorId != null)
+    //    {
+    //        var fallbackAuthor = await dbContext.Authors
+    //        .FirstOrDefaultAsync(a=>a.AuthorId == fallbackAuthorId);
+
+    //        if (fallbackAuthor != null)
+    //            return (fallbackAuthor, true);
+    //    }
+
+    //    var lastResort = await dbContext.Authors
+    //    .Where(a=>a.Books.Any())
+    //    .OrderByDescending(a=>a.AuthorId)
+    //    .FirstOrDefaultAsync();
+
+    //    return (lastResort, true);
+    //}
     public async Task<bool> IsAuthorExist(int authorId)
     {
         return await dbContext.Authors.AnyAsync(a => a.AuthorId == authorId);

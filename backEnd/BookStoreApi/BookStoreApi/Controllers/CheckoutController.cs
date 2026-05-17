@@ -1,11 +1,7 @@
 using BookStore.Application.Checkout.Commands.CreateCheckoutSession;
-using BookStore.Application.Checkout.Commands.FulfillCheckout;
-using BookStore.Application.Services.PaymentService.Contracts;
-using BookStore.Application.Services.PaymentService.Stripe;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Stripe;
 
 namespace BookStoreApi.Controllers;
 

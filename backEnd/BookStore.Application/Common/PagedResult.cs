@@ -16,3 +16,12 @@ public class PagedResult<T>
     public int ItemsFrom { get; set; }
     public int ItemsTo { get; set; }
 }
+public class PagedResult<T, TMeta> : PagedResult<T>
+{
+    public PagedResult(IEnumerable<T>items,int totalCount,int pageSize,int pageNumber,TMeta meta)
+    :base(items,totalCount,pageSize,pageNumber)
+    {
+        Meta = meta;
+    }
+    public TMeta Meta { get; set; }
+}

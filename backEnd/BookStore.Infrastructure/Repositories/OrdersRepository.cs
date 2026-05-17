@@ -81,4 +81,10 @@ internal class OrdersRepository(BookStoreDBContext dbContext) : IOrdersRepositor
 
         return await dbContext.SaveChangesAsync() > 0;
     }
+    public async Task<bool> HasCustomerPurchasedBookAsync(int customerId, int bookId)
+    {
+        return await dbContext.Orders
+            .Where(o => o.CustomerId == customerId && o.Status == OrderStatus.Delivered)
+            .AnyAsync(o => o.OrderItems.Any(i => i.BookId == bookId));
+    }
 }

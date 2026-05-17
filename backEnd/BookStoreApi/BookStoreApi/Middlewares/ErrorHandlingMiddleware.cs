@@ -28,7 +28,7 @@ public class ErrorHandlingMiddleware(ILogger<ErrorHandlingMiddleware> logger) : 
         catch (BadRequestException badRequest)
         {
             context.Response.StatusCode = 400;
-            await context.Response.WriteAsync("Invalid Data inserted");
+            await context.Response.WriteAsync(badRequest.Message);
             logger.LogWarning(badRequest.Message);
         }
         catch (Exception ex)

@@ -28,4 +28,16 @@ public interface IBooksRepository
        , SortDirection sortDirection);
 
     Task<IEnumerable<PreviewBookView>> GetByIdsAsync(IEnumerable<int> ids);
+    Task<(IEnumerable<MiniBookView>, int)> GetByAuthorIdAsync(
+    int authorId,
+    string? searchPhrase,
+    int pageSize,
+    int pageNumber,
+    string? sortBy,
+    SortDirection sortDirection);
+    Task<MiniBookView?> GetFeaturedOrNewestAsync();
+    Task<(IEnumerable<MiniBookView> Books, int TotalCount, bool IsFallback)> GetEditorsPicksAsync(
+     string? searchPhrase, int pageSize, int pageNumber, string? sortBy, SortDirection sortDirection);
+    Task<(IEnumerable<MiniBookView> Books, int TotalCount, bool IsFallback)> GetFeaturedAsync
+     (string? searchPhrase, int pageSize, int pageNumber, string? sortBy, SortDirection sortDirection);
 }

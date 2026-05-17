@@ -29,6 +29,8 @@ public class BookStoreDBContext(DbContextOptions<BookStoreDBContext> options) : 
     public DbSet<ProcessedWebhookEvent> ProcessedWebhookEvents { get; set; }
     public DbSet<CheckoutIntent> CheckoutIntents { get; set; }
     public DbSet<CheckoutIntentItem> CheckoutIntentItems { get; set; }
+    public DbSet<Notification> Notifications { get; set; }
+    public DbSet<NewsletterSubscription> NewsletterSubscriptions { get; set; }
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -40,6 +42,8 @@ public class BookStoreDBContext(DbContextOptions<BookStoreDBContext> options) : 
         {
             entity.HasNoKey();
             entity.ToView("vw_Books");
+            entity.Property(b => b.Rating).HasPrecision(3, 2);
+            entity.Property(b => b.Price).HasPrecision(18, 2);
         });
         modelBuilder.Entity<ReviewView>(entity =>
         {

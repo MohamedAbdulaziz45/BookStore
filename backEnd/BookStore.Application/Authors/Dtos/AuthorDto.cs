@@ -6,4 +6,6 @@ public class AuthorDto
     public string Name { get; set; } = default!;
     public string Bio { get; set; } = default!;
     public string? Image { get; set; }
+    public bool IsFeatured { get; set; }
+    public DateTime? FeaturedAt { get; set; }
 }
