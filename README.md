@@ -227,4 +227,4 @@ The backend build completed with a package security warning for `AutoMapper 15.1
 
 ## License
 
-No license file is currently included. Add a license before publishing the project publicly.
+This project is licensed under the MIT License
