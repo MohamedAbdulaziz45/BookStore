@@ -1,13 +1,13 @@
 # BookStore
 
-BookStore is a full-stack online bookstore application with an ASP.NET Core Web API backend and an Angular frontend. It supports browsing books, genres, authors, cart management, authentication, checkout, reviews, customer account features, and admin management screens.
+BookStore is a full-stack online bookstore application with an ASP.NET Core Web API backend and an Angular frontend. It supports genres, authors, cart management, authentication, checkout, reviews, customer account features
 
 ## Features
 
 ### Customer / public features
 
 - Home page with featured bookstore sections.
-- Browse all books, new arrivals, best sellers, editor picks, genres, and authors.
+- Browse all books, new arrivals, editor picks, genres, and authors.
 - Book detail pages with reviews and related content.
 - Search and sorting support.
 - Guest cart stored locally, with cart synchronization after login.
@@ -15,12 +15,11 @@ BookStore is a full-stack online bookstore application with an ASP.NET Core Web 
 - Customer profile and address management.
 - Checkout flow using Stripe.
 - Order tracking and customer orders.
-- Wishlist, FAQ, deals, contact, and about pages.
+
 
 ### Admin features
 
 - Admin dashboard route protected by role-based authorization.
-- Admin panels for books, genres, customers, orders, payments, reviews, shipping, and settings.
 - Backend API endpoints protected with the `Admin` role where required.
 
 ## Tech stack
