@@ -44,11 +44,8 @@ BookStore is a full-stack online bookstore application with an ASP.NET Core Web 
 - Angular 18
 - Standalone components
 - Angular Router lazy-loaded routes
-- Angular Signals
-- RxJS
 - Bootstrap 5
 - Bootstrap Icons
-- SCSS
 
 ## Project structure
 
@@ -227,4 +224,4 @@ The backend build completed with a package security warning for `AutoMapper 15.1
 
 ## License
 
-No license file is currently included. Add a license before publishing the project publicly.
+This project is licensed under the MIT License
