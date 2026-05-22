@@ -14,6 +14,7 @@ import { IBookSummary } from "../../models/Book/i-book-summary";
 export class AuthorSectionComponent implements OnInit {
   @Input() name!: string | null;
   @Input() bio!: string | null;
+  @Input() IsFallBack? = false;
   @Input() image!: string | null;
   @Input() id!: number | null;
   //@Input() books!: any;

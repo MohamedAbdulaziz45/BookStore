@@ -1,53 +1,43 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { ICart } from "../../models/Cart/icart";
-import { environment } from "../../../environments/environment.development";
+import { environment } from "../../../environments/environment";
 import { Observable } from "rxjs";
-import {
-  ISyncCartItem,
-  ISyncCartRequest,
-} from "../../models/Cart/isync-cart-request";
+import { ISyncCartRequest } from "../../models/Cart/isync-cart-request";
 @Injectable({
   providedIn: "root",
 })
 export class ApiCartService {
+  private readonly baseUrl = `${environment.baseUrl}/carts`;
   constructor(private httpClient: HttpClient) {}
 
   getCart(): Observable<ICart> {
-    return this.httpClient.get<ICart>(`${environment.baseUrl}/carts/me`);
+    return this.httpClient.get<ICart>(`${this.baseUrl}/me`);
   }
 
   addOrUpdateCartItem(
     bookId: number,
     quantityChange: number,
   ): Observable<ICart> {
-    return this.httpClient.post<ICart>(`${environment.baseUrl}/carts/items`, {
+    return this.httpClient.post<ICart>(`${this.baseUrl}/items`, {
       bookId,
       quantityChange,
     });
   }
 
   removeItem(bookId: number): Observable<ICart> {
-    return this.httpClient.delete<ICart>(
-      `${environment.baseUrl}/carts/items/${bookId}`,
-    );
+    return this.httpClient.delete<ICart>(`${this.baseUrl}/items/${bookId}`);
   }
 
   clearCart(): Observable<void> {
-    return this.httpClient.delete<void>(`${environment.baseUrl}/carts`);
+    return this.httpClient.delete<void>(`${this.baseUrl}`);
   }
 
   syncCart(request: ISyncCartRequest): Observable<ICart> {
-    return this.httpClient.post<ICart>(
-      `${environment.baseUrl}/carts/sync`,
-      request,
-    );
+    return this.httpClient.post<ICart>(`${this.baseUrl}/sync`, request);
   }
 
   previewCart(request: ISyncCartRequest): Observable<ICart> {
-    return this.httpClient.post<ICart>(
-      `${environment.baseUrl}/carts/preview`,
-      request,
-    );
+    return this.httpClient.post<ICart>(`${this.baseUrl}/preview`, request);
   }
 }

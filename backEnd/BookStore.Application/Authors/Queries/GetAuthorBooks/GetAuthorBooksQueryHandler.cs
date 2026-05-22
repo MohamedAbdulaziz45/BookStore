@@ -32,7 +32,7 @@ internal class GetAuthorBooksQueryHandler
 
         var (entities, totalCount) = await booksRepository.GetByAuthorIdAsync(
             request.AuthorId,
-            request.searchPhrase,
+            request.SearchPhrase,
             request.PageSize,
             request.PageNumber,
             request.SortBy,

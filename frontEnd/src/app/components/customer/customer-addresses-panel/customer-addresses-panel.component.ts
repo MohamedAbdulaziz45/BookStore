@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from "@angular/core";
+import { Component, EventEmitter, OnInit, Output, inject } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { ApiAddressService } from "../../../services/addresses/api-address.service";
 import { ToastService } from "../../../services/toast.service";
@@ -12,6 +12,8 @@ import { AddressFormModalComponent } from "../../address-form-modal/address-form
   templateUrl: "./customer-addresses-panel.component.html",
 })
 export class CustomerAddressesPanelComponent implements OnInit {
+  @Output() addressCountChange = new EventEmitter<number>();
+
   private addressService = inject(ApiAddressService);
   private toastService = inject(ToastService);
 
@@ -31,6 +33,7 @@ export class CustomerAddressesPanelComponent implements OnInit {
     this.addressService.getMyAddresses().subscribe({
       next: (addresses) => {
         this.addresses = addresses;
+        this.addressCountChange.emit(this.addresses.length);
         this.isLoading = false;
       },
       error: () => {

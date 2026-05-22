@@ -11,7 +11,8 @@ public class GetAllBooksQueryValidator : AbstractValidator<GetAllBooksQuery>
         nameof(BookView.Title),
         nameof(BookView.Price),
         nameof(BookView.Author),
-        nameof(BookView.Rating)
+        nameof(BookView.Rating),
+        nameof(BookView.PublicationDate),
     ];
 
     public GetAllBooksQueryValidator()

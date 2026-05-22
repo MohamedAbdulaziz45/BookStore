@@ -119,4 +119,14 @@ export class ApiUserService {
       formData,
     );
   }
+  changePassword(
+    currentPassword: string,
+    newPassword: string,
+    confirmNewPassword: string,
+  ): Observable<void> {
+    return this.httpClient.patch<void>(
+      `${environment.baseUrl}/identity/password`,
+      { currentPassword, newPassword, confirmNewPassword },
+    );
+  }
 }

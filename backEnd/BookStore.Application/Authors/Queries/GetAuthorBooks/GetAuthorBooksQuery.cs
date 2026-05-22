@@ -8,7 +8,7 @@ namespace BookStore.Application.Authors.Queries.GetAuthorBooks;
 public class GetAuthorBooksQuery(int authorId) : IRequest<PagedResult<MiniBookDto>>
 {
     public int AuthorId { get; } = authorId;
-    public string? searchPhrase{  get; set; }
+    public string? SearchPhrase { get; set; }
     public int PageNumber { get; set; }
     public int PageSize { get; set; }
     public string? SortBy { get; set; }

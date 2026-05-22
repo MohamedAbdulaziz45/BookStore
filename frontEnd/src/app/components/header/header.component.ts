@@ -5,24 +5,30 @@ import { CartService } from "../../services/cart.service";
 import { ToastService } from "../../services/toast.service";
 import { AuthModalComponent } from "../auth-modal/auth-modal.component";
 import { ApiUserService } from "../../services/users/api-user.service";
+import { ChangePasswordModalComponent } from "../change-password-modal/change-password-modal.component";
 
 @Component({
   selector: "app-header",
   standalone: true,
-  imports: [RouterLink, RouterLinkActive, FormsModule, AuthModalComponent],
+  imports: [
+    RouterLink,
+    RouterLinkActive,
+    FormsModule,
+    AuthModalComponent,
+    ChangePasswordModalComponent,
+  ],
   templateUrl: "./header.component.html",
 })
 export class HeaderComponent {
   @ViewChild(AuthModalComponent) authModal?: AuthModalComponent;
 
+  showChangePasswordModal = false;
   navItems = [
     { label: "Genres", path: "/genres" },
     { label: "All Books", path: "/all-books" },
     { label: "New Arrival", path: "/new-arrival" },
-    { label: "Best Seller", path: "/best-seller" },
+    { label: "Featured Books", path: "/featured-books" },
     { label: "Editor's Pick", path: "/editors-pick" },
-    { label: "Deals", path: "/deals" },
-    // { label: "Profile", path: "/profile" },
     { label: "About", path: "/about" },
     { label: "Contact", path: "/contact" },
   ];

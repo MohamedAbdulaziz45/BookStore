@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from "@angular/core";
+import { Component, OnInit, inject, signal } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { HeaderComponent } from "../../components/header/header.component";
 import { FooterComponent } from "../../components/footer/footer.component";
@@ -55,9 +55,10 @@ import { GenreShelfComponent } from "./components/genre-shelf.component";
         <app-genre-grid [genres]="genreCards"></app-genre-grid>
 
         <app-genre-shelf
-          eyebrow="Reader Favorites"
+          eyebrow="Featured Books"
           title="Strong entry points for first-time visitors"
-          [books]="popularShelf"
+          [books]="featuredShelf()"
+          [isFallBack]="isFallbackFeatured()"
           ctaLabel="Open all books"
           ctaLink="/all-books"
         ></app-genre-shelf>
@@ -65,12 +66,12 @@ import { GenreShelfComponent } from "./components/genre-shelf.component";
         <app-genre-shelf
           eyebrow="Editor Trail"
           title="Curated picks worth putting on the front table"
-          [books]="editorShelf"
+          [books]="editorShelf()"
+          [isFallBack]="isFallbackEditors()"
           ctaLabel="View editor's picks"
           ctaLink="/editors-pick"
         ></app-genre-shelf>
 
-        
         @for (genre of genreCards; track genre.title) {
           <app-genre-shelf
             [eyebrow]="genre.title"
@@ -87,6 +88,10 @@ import { GenreShelfComponent } from "./components/genre-shelf.component";
   `,
 })
 export class GenresComponent implements OnInit {
+  featuredShelf = signal<IBookSummary[]>([]);
+  editorShelf = signal<IBookSummary[]>([]);
+  isFallbackFeatured = signal(false);
+  isFallbackEditors = signal(false);
   private booksService = inject(BooksService);
   private apiBookService = inject(ApiBookService);
   private categoryService = inject(CategoryService);
@@ -96,11 +101,6 @@ export class GenresComponent implements OnInit {
   genreCards: GenreCard[] = [];
   fallbackNotice = "";
   genreShelves: Record<string, IBookSummary[]> = {};
-
-  popularShelf = this.books.slice(0, 4);
-  editorShelf = this.books
-    .filter((book) => book.category?.includes("editors-pick"))
-    .slice(0, 4);
 
   getBooksByGenre(genreTitle: string): IBookSummary[] {
     return this.genreShelves[genreTitle] ?? [];
@@ -126,6 +126,20 @@ export class GenresComponent implements OnInit {
           "Genre links are temporarily unavailable until category data loads from the API.";
         this.genreCards = this.buildFallbackGenres();
         this.genreShelves = this.buildLocalGenreShelves(this.genreCards);
+      },
+    });
+
+    this.apiBookService.getFeatured(4, 1).subscribe({
+      next: (result) => {
+        this.featuredShelf.set(result.items);
+        this.isFallbackFeatured.set(result.meta);
+      },
+    });
+
+    this.apiBookService.getEditorsPicks(4, 1).subscribe({
+      next: (result) => {
+        this.editorShelf.set(result.items);
+        this.isFallbackEditors.set(result.meta);
       },
     });
   }
@@ -168,55 +182,18 @@ export class GenresComponent implements OnInit {
   }
 
   private loadGenreShelves(cards: GenreCard[]) {
-    this.apiBookService
-      .getAllBooks(undefined, this.catalogPageSize, 1)
-      .subscribe({
-        next: (firstPage) => {
-          const remainingPageRequests = Array.from(
-            { length: Math.max(firstPage.totalPages - 1, 0) },
-            (_, index) =>
-              this.apiBookService.getAllBooks(
-                undefined,
-                this.catalogPageSize,
-                index + 2,
-              ),
-          );
-
-          const remainingPages$ = remainingPageRequests.length
-            ? forkJoin(remainingPageRequests)
-            : of([]);
-
-          remainingPages$.subscribe({
-            next: (remainingPages) => {
-              const allItems = [firstPage, ...remainingPages].flatMap(
-                (page) => page.items,
-              );
-
-              if (!allItems.length) {
-                this.genreShelves = this.buildLocalGenreShelves(cards);
-                return;
-              }
-
-              forkJoin(
-                allItems.map((book) => this.apiBookService.getBookById(book.id)),
-              ).subscribe({
-                next: (books) => {
-                  this.genreShelves = this.buildApiGenreShelves(cards, books);
-                },
-                error: () => {
-                  this.genreShelves = this.buildLocalGenreShelves(cards);
-                },
-              });
-            },
-            error: () => {
-              this.genreShelves = this.buildLocalGenreShelves(cards);
-            },
-          });
-        },
-        error: () => {
-          this.genreShelves = this.buildLocalGenreShelves(cards);
-        },
-      });
+    cards.forEach((card) => {
+      this.apiBookService
+        .getAllBooksByGenre(card.genreId!, undefined, 4, 1)
+        .subscribe({
+          next: (result) => {
+            this.genreShelves = {
+              ...this.genreShelves,
+              [card.title]: result.items,
+            };
+          },
+        });
+    });
   }
 
   private buildApiGenreShelves(
@@ -249,6 +226,7 @@ export class GenresComponent implements OnInit {
             price: book.price,
             image: book.image,
             author: book.author ?? "",
+            authorId: 0,
             rating: book.rating ?? 0,
             reviewCount: book.reviewCount ?? 0,
           }));
@@ -276,6 +254,7 @@ export class GenresComponent implements OnInit {
       price: book.price,
       image: book.image,
       author: book.author,
+      authorId: book.authorId,
       rating: book.rating ?? 0,
       reviewCount: book.reviewCount ?? 0,
     };

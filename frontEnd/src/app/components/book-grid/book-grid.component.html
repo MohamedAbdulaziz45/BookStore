@@ -10,7 +10,11 @@
         }
       </div>
     }
-
+    @if (isFallBack) {
+      <div class="alert alert-warning text-center" role="alert">
+        No books found. Displaying newest content.
+      </div>
+    }
     <div class="row g-4" [class]="rowColsClass">
       @for (book of books; track book.id) {
         <div class="col">

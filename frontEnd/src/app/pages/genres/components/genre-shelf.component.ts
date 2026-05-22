@@ -15,6 +15,9 @@ import { BookGridComponent } from "../../../components/book-grid/book-grid.compo
         <div>
           <p class="eyebrow">{{ eyebrow }}</p>
           <h3>{{ title }}</h3>
+          <span *ngIf="isFallBack" class="badge bg-warning text-dark fs-6"
+            >Showing fallback data</span
+          >
         </div>
         <a [routerLink]="ctaLink" class="browse-link">{{ ctaLabel }}</a>
       </div>
@@ -24,7 +27,9 @@ import { BookGridComponent } from "../../../components/book-grid/book-grid.compo
   `,
   styles: [
     `
-      .shelf-wrap { padding-top: 1rem; }
+      .shelf-wrap {
+        padding-top: 1rem;
+      }
       .section-head {
         display: flex;
         justify-content: space-between;
@@ -54,6 +59,7 @@ import { BookGridComponent } from "../../../components/book-grid/book-grid.compo
 export class GenreShelfComponent {
   @Input() eyebrow = "";
   @Input() title = "";
+  @Input() isFallBack? = false;
   @Input() books: Book[] | IBookSummary[] = [];
   @Input() ctaLabel = "See all";
   @Input() ctaLink = "/all-books";

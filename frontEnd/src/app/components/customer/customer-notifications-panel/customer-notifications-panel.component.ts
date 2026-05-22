@@ -1,18 +1,98 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, EventEmitter, OnInit, Output, inject } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { ApiNotificationsService } from "../../../services/notifications/api-notifications.service";
+import { Notification } from "../../../models/Notification/notification";
+import { ToastService } from "../../../services/toast.service";
+import { Router } from "@angular/router";
 
 @Component({
-  selector: 'app-customer-notifications-panel',
+  selector: "app-customer-notifications-panel",
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './customer-notifications-panel.component.html'
+  templateUrl: "./customer-notifications-panel.component.html",
 })
-export class CustomerNotificationsPanelComponent {
-  notifications = [
-    { id: 1, icon: 'bi-truck', color: '#198754', title: 'Order #ORD-2041 shipped', text: 'Your order is on its way! Tracking: FX-784512369', time: '2 hours ago', unread: true },
-    { id: 2, icon: 'bi-tag', color: 'var(--gold)', title: '20% Off Weekend Sale', text: 'Use code WEEKEND20 for 20% off all fiction books this weekend.', time: '1 day ago', unread: true },
-    { id: 3, icon: 'bi-bag-check', color: '#0d6efd', title: 'Order #ORD-2030 delivered', text: 'Your order has been delivered. Enjoy your read!', time: '2 weeks ago', unread: false },
-    { id: 4, icon: 'bi-star', color: '#fd7e14', title: 'Rate your purchase', text: 'How was "The Alchemist"? Share your thoughts with other readers.', time: '2 weeks ago', unread: false },
-    { id: 5, icon: 'bi-heart', color: '#dc3545', title: 'Price drop on wishlist item', text: '"Sapiens" is now $15.99 (was $19.99). Grab it before the offer ends!', time: '3 weeks ago', unread: false },
-  ];
+export class CustomerNotificationsPanelComponent implements OnInit {
+  @Output() unreadCountChange = new EventEmitter<number>();
+
+  private notificationsService = inject(ApiNotificationsService);
+  private toastService = inject(ToastService);
+  private router = inject(Router);
+
+  notifications: Notification[] = [];
+  isLoading = true;
+
+  ngOnInit(): void {
+    this.load();
+  }
+
+  load(): void {
+    this.isLoading = true;
+    this.notificationsService.getMine().subscribe({
+      next: (items) => {
+        this.notifications = items ?? [];
+        this.emitUnreadCount();
+        this.isLoading = false;
+      },
+      error: () => {
+        this.isLoading = false;
+        this.toastService.show("Failed to load notifications", "error");
+      },
+    });
+  }
+
+  markAllAsRead(): void {
+    this.notificationsService.markAllAsRead().subscribe({
+      next: () => {
+        this.notifications = this.notifications.map((n) => ({
+          ...n,
+          isRead: true,
+        }));
+        this.emitUnreadCount();
+      },
+      error: () =>
+        this.toastService.show("Failed to mark all as read", "error"),
+    });
+  }
+
+  openNotification(notification: Notification): void {
+    const openLink = () => {
+      if (notification.linkUrl)
+        void this.router.navigateByUrl(notification.linkUrl);
+    };
+
+    if (notification.isRead) {
+      openLink();
+      return;
+    }
+
+    this.notificationsService
+      .markAsRead(notification.notificationId)
+      .subscribe({
+        next: () => {
+          notification.isRead = true;
+          this.emitUnreadCount();
+          openLink();
+        },
+        error: () =>
+          this.toastService.show("Failed to update notification", "error"),
+      });
+  }
+
+  getIcon(type: string): string {
+    return (
+      (
+        {
+          OrderConfirmed: "bi-bag-check",
+          OrderStatusChanged: "bi-truck",
+          OrderCancelled: "bi-x-circle",
+        } as Record<string, string>
+      )[type] ?? "bi-bell"
+    );
+  }
+
+  private emitUnreadCount(): void {
+    this.unreadCountChange.emit(
+      this.notifications.filter((n) => !n.isRead).length,
+    );
+  }
 }

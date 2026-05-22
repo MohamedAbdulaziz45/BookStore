@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, Output, OnChanges, SimpleChanges } from "@angular/core";
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  OnChanges,
+  SimpleChanges,
+} from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 
@@ -10,8 +17,10 @@ import { FormsModule } from "@angular/forms";
     <div class="summary-card">
       <div>
         <p class="eyebrow">Search Focus</p>
-        <h3>"{{ query || 'All books' }}"</h3>
-        <p class="copy">{{ resultsCount }} matching books across title and author.</p>
+        <h3>"{{ query || "All books" }}"</h3>
+        <p class="copy">
+          {{ resultsCount }} matching books across title and author.
+        </p>
       </div>
 
       <div class="controls">
@@ -21,7 +30,11 @@ import { FormsModule } from "@angular/forms";
           (keyup.enter)="submitSearch()"
           placeholder="Refine search..."
         />
-        <select class="form-select" [(ngModel)]="sort" (change)="sortChange.emit(sort)">
+        <select
+          class="form-select"
+          [(ngModel)]="sort"
+          (change)="sortChange.emit(sort)"
+        >
           <option value="featured">Featured</option>
           <option value="price-asc">Price: Low to High</option>
           <option value="price-desc">Price: High to Low</option>
@@ -53,14 +66,19 @@ import { FormsModule } from "@angular/forms";
         color: var(--brand-dark);
         font-family: "Lato", sans-serif;
       }
-      .copy { margin: 0; color: var(--brand-gray); }
+      .copy {
+        margin: 0;
+        color: var(--brand-gray);
+      }
       .controls {
         display: grid;
         grid-template-columns: 1.7fr 1fr auto;
         gap: 0.75rem;
       }
       @media (max-width: 767px) {
-        .controls { grid-template-columns: 1fr; }
+        .controls {
+          grid-template-columns: 1fr;
+        }
       }
     `,
   ],

@@ -1,4 +1,4 @@
-import { Component, Input } from "@angular/core";
+import { Component, input, Input } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { RouterLink } from "@angular/router";
 import { Book } from "../../models/book.model";
@@ -16,6 +16,7 @@ export class BookGridComponent {
   @Input() books: IBookSummary[] | ibook[] | Book[] = [];
   @Input() title?: string;
   @Input() description?: string;
+  @Input() isFallBack? = false;
   @Input() showViewMore = true;
   @Input() columns: 2 | 3 | 4 = 4;
 

@@ -353,7 +353,9 @@ export class GenreDetailsComponent {
               }
 
               forkJoin(
-                allItems.map((book) => this.apiBookService.getBookById(book.id)),
+                allItems.map((book) =>
+                  this.apiBookService.getBookById(book.id),
+                ),
               ).subscribe({
                 next: (books) => {
                   const filtered = books.filter((book) =>
@@ -404,8 +406,7 @@ export class GenreDetailsComponent {
   private bookMatchesGenre(book: ibook, genreId: number, genreSlug: string) {
     return book.categories?.some(
       (category) =>
-        category.id === genreId ||
-        this.toSlug(category.name) === genreSlug,
+        category.id === genreId || this.toSlug(category.name) === genreSlug,
     );
   }
 
@@ -417,10 +418,14 @@ export class GenreDetailsComponent {
         return sorted.sort((a, b) => a.title.localeCompare(b.title));
       case "Price":
         return sorted.sort((a, b) =>
-          this.sortDirection() === "Ascending" ? a.price - b.price : b.price - a.price,
+          this.sortDirection() === "Ascending"
+            ? a.price - b.price
+            : b.price - a.price,
         );
       case "Author":
-        return sorted.sort((a, b) => (a.author || "").localeCompare(b.author || ""));
+        return sorted.sort((a, b) =>
+          (a.author || "").localeCompare(b.author || ""),
+        );
       default:
         return sorted;
     }
@@ -433,6 +438,7 @@ export class GenreDetailsComponent {
       price: book.price,
       image: book.image,
       author: book.author,
+      authorId: book.authorId,
       rating: book.rating ?? 0,
       reviewCount: book.reviewCount ?? 0,
     };

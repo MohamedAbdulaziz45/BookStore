@@ -4,7 +4,8 @@ export interface IpagedResult<T> {
   totalItemsCount: number;
   itemsFrom: number;
   itemsTo: number;
-  totalCount: number;
-  currentPage: number;
-  pageSize: number;
+}
+
+export interface IPagedResultWithMeta<T, TMeta> extends IpagedResult<T> {
+  meta: TMeta;
 }

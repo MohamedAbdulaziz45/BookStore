@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { Book } from "../../../models/book.model";
 import { BookGridComponent } from "../../../components/book-grid/book-grid.component";
+import { IBookSummary } from "../../../models/Book/i-book-summary";
 
 @Component({
   selector: "app-search-books-grid",
@@ -13,7 +14,10 @@ import { BookGridComponent } from "../../../components/book-grid/book-grid.compo
     } @else {
       <div class="empty-state">
         <h3>No matching books yet</h3>
-        <p>Try a broader title, author name, or switch to a different sorting strategy.</p>
+        <p>
+          Try a broader title, author name, or switch to a different sorting
+          strategy.
+        </p>
       </div>
     }
   `,
@@ -30,6 +34,6 @@ import { BookGridComponent } from "../../../components/book-grid/book-grid.compo
   ],
 })
 export class SearchBooksGridComponent {
-  @Input() books: Book[] = [];
+  @Input() books: IBookSummary[] = [];
   @Output() add = new EventEmitter<Book>();
 }

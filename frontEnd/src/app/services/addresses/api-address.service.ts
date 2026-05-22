@@ -13,7 +13,7 @@ export class ApiAddressService {
 
   getMyAddresses(): Observable<IAddress[]> {
     return this.httpClient.get<IAddress[]>(
-      `${environment.baseUrl}/Addresses/me`,
+      `${environment.baseUrl}/addresses/me`,
     );
   }
 

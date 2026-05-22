@@ -1,4 +1,4 @@
-import { Component, inject } from "@angular/core";
+import { Component, inject, signal } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { ActivatedRoute, Router } from "@angular/router";
 import { HeaderComponent } from "../../components/header/header.component";
@@ -9,6 +9,8 @@ import { SearchSummaryComponent } from "./components/search-summary.component";
 import { SearchBooksGridComponent } from "./components/search-books-grid.component";
 import { Book } from "../../models/book.model";
 import { ToastService } from "../../services/toast.service";
+import { ApiBookService } from "../../services/books/api-book.service";
+import { IBookSummary } from "../../models/Book/i-book-summary";
 
 @Component({
   selector: "app-search-results",
@@ -32,15 +34,21 @@ import { ToastService } from "../../services/toast.service";
       <div class="container">
         <app-search-summary
           [query]="query"
-          [resultsCount]="results.length"
+          [resultsCount]="totalCount()"
           [sort]="sort"
           (search)="onSearch($event)"
           (sortChange)="onSortChange($event)"
         ></app-search-summary>
 
-        <div class="mt-4">
-          <app-search-books-grid [books]="results" (add)="saveBook($event)"></app-search-books-grid>
-        </div>
+        @if (isLoading()) {
+          <div class="text-center py-5">
+            <div class="spinner-border text-gold" role="status"></div>
+          </div>
+        } @else {
+          <div class="mt-4">
+            <app-search-books-grid [books]="results()"></app-search-books-grid>
+          </div>
+        }
       </div>
     </section>
 
@@ -50,18 +58,20 @@ import { ToastService } from "../../services/toast.service";
 export class SearchResultsComponent {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
-  private booksService = inject(BooksService);
-  private toastService = inject(ToastService);
+  private apiBookService = inject(ApiBookService);
 
   query = "";
   sort = "featured";
-  results: Book[] = [];
+
+  results = signal<IBookSummary[]>([]);
+  totalCount = signal(0);
+  isLoading = signal(false);
 
   constructor() {
     this.route.queryParams.subscribe((params) => {
       this.query = params["search"] ?? "";
       this.sort = params["sort"] ?? "featured";
-      this.applySearch();
+      this.loadBooks();
     });
   }
 
@@ -81,26 +91,36 @@ export class SearchResultsComponent {
     });
   }
 
-  saveBook(book: Book) {
-    this.toastService.show(`${book.title} saved for later`, "info");
+  private loadBooks() {
+    this.isLoading.set(true);
+
+    const { sortBy, sortDirection } = this.mapSort(this.sort);
+
+    this.apiBookService
+      .getAllBooks(this.query || undefined, 12, 1, sortBy, sortDirection)
+      .subscribe({
+        next: (result) => {
+          this.results.set(result.items);
+          this.totalCount.set(result.totalItemsCount);
+          this.isLoading.set(false);
+        },
+        error: () => this.isLoading.set(false),
+      });
   }
 
-  private applySearch() {
-    const source = this.query ? this.booksService.searchBooks(this.query) : this.booksService.getAll();
-    this.results = this.sortBooks(source, this.sort);
-  }
-
-  private sortBooks(books: Book[], sort: string) {
-    const copy = [...books];
+  private mapSort(sort: string): {
+    sortBy?: string;
+    sortDirection: "Ascending" | "Descending";
+  } {
     switch (sort) {
       case "price-asc":
-        return copy.sort((a, b) => a.price - b.price);
+        return { sortBy: "Price", sortDirection: "Ascending" };
       case "price-desc":
-        return copy.sort((a, b) => b.price - a.price);
+        return { sortBy: "Price", sortDirection: "Descending" };
       case "title":
-        return copy.sort((a, b) => a.title.localeCompare(b.title));
+        return { sortBy: "Title", sortDirection: "Ascending" };
       default:
-        return copy;
+        return { sortBy: undefined, sortDirection: "Ascending" };
     }
   }
 }

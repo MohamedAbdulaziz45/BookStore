@@ -44,10 +44,10 @@ export const routes: Routes = [
       ),
   },
   {
-    path: "best-seller",
+    path: "featured-books",
     loadComponent: () =>
-      import("./pages/best-seller/best-seller.component").then(
-        (c) => c.BestSellerComponent,
+      import("./pages/featured/featured-books").then(
+        (c) => c.FeaturedComponent,
       ),
   },
   {

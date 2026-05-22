@@ -129,7 +129,15 @@
                 </a>
               </li>
               <li><hr class="dropdown-divider" /></li>
-
+              <li>
+                <button
+                  class="dropdown-item py-2"
+                  (click)="showChangePasswordModal = true"
+                >
+                  <i class="bi bi-shield-lock me-2 text-gold"></i>Change
+                  Password
+                </button>
+              </li>
               <!-- Logout button -->
               <li>
                 <button
@@ -156,3 +164,8 @@
 </nav>
 
 <app-auth-modal (loggedIn)="onLogin($event)"></app-auth-modal>
+@if (showChangePasswordModal) {
+  <app-change-password-modal
+    (close)="showChangePasswordModal = false"
+  ></app-change-password-modal>
+}

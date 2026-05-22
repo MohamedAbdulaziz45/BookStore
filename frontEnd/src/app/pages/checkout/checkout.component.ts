@@ -60,11 +60,7 @@ export class CheckoutComponent implements OnInit {
       postalCode: ["", [Validators.required, Validators.maxLength(20)]],
       country: [
         "",
-        [
-          Validators.required,
-          Validators.minLength(2),
-          Validators.maxLength(2),
-        ],
+        [Validators.required, Validators.minLength(2), Validators.maxLength(2)],
       ],
       isDefault: [true],
     });
@@ -144,13 +140,12 @@ export class CheckoutComponent implements OnInit {
     this.isProcessing = true;
     this.checkoutService.createSession(this.selectedAddressId).subscribe({
       next: (result) => {
-        window.location.href = result.SessionUrl;
+        window.location.href = result.sessionUrl;
       },
       error: (err) => {
         this.isProcessing = false;
         const msg =
-          err.error?.message ||
-          "Failed to start checkout. Please try again.";
+          err.error?.message || "Failed to start checkout. Please try again.";
         this.toastService.show(msg, "error");
       },
     });

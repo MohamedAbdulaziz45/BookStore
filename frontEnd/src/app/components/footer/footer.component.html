@@ -4,7 +4,6 @@
       class="row g-4 pb-5"
       style="border-bottom: 1px solid rgba(255, 255, 255, 0.1)"
     >
-      <!-- Brand -->
       <div class="col-lg-4 col-md-6">
         <div class="d-flex align-items-center gap-2 mb-3">
           <div
@@ -35,7 +34,6 @@
         </div>
       </div>
 
-      <!-- Link columns -->
       @for (col of columns; track col.heading) {
         <div class="col-6 col-md-2 col-lg-2">
           <p class="footer-col-title">{{ col.heading }}</p>
@@ -48,49 +46,14 @@
           </ul>
         </div>
       }
-
-      <!-- Mini newsletter -->
-      <div class="col-md-12 col-lg-4">
-        <p class="footer-col-title">Newsletter</p>
-        <p class="small mb-3" style="color: rgba(255, 255, 255, 0.5)">
-          Stay updated with our latest books and offers.
-        </p>
-        <form (submit)="onSubscribe($event)" class="d-flex gap-2">
-          <input
-            type="email"
-            [(ngModel)]="email"
-            name="email"
-            required
-            class="footer-nl-input flex-grow-1"
-            placeholder="Your email"
-          />
-          <button
-            type="submit"
-            class="btn btn-gold btn-sm fw-bold text-uppercase px-3"
-          >
-            Go
-          </button>
-        </form>
-        @if (ok()) {
-          <p class="text-gold small mt-2 mb-0">
-            <i class="bi bi-check-circle-fill me-1"></i>Subscribed!
-          </p>
-        }
-      </div>
     </div>
 
-    <!-- Bottom bar -->
     <div
       class="d-flex flex-column flex-md-row align-items-center justify-content-between py-3 gap-2"
     >
       <p class="small mb-0" style="color: rgba(255, 255, 255, 0.4)">
-        © 2024 BookWorms. All rights reserved.
+        © 2026 BookWorms. All rights reserved to Mohamed Abdulaziz.
       </p>
-      <img
-        src="https://websitedemos.net/book-store-04/wp-content/uploads/sites/1029/2022/02/payment-image.png"
-        alt="Payment methods"
-        style="height: 22px; opacity: 0.45"
-      />
     </div>
   </div>
 </footer>
